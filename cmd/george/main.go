@@ -14,8 +14,8 @@ import (
 
 func main() {
 	var (
-		email    = flag.String("email", "", "email address")
-		password = flag.String("password", "", "login password")
+		email    = flag.String("email", os.Getenv("EMAIL"), "email address")
+		password = flag.String("password", os.Getenv("PASSWORD"), "login password")
 		room     = flag.Int("room", 1, "room to join")
 	)
 	flag.Parse()
