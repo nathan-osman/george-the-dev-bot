@@ -8,6 +8,7 @@ import (
 	"syscall"
 
 	"github.com/nathan-osman/george-the-dev-bot/registry"
+	_ "github.com/nathan-osman/george-the-dev-bot/time"
 	"github.com/nathan-osman/go-sechat"
 )
 
@@ -39,7 +40,9 @@ func main() {
 		case <-ch:
 			return
 		case e := <-c.Events:
-			registry.Execute(e)
+			if e.IsMention() {
+				registry.Execute(c, e)
+			}
 		}
 	}
 }

@@ -5,7 +5,7 @@ import (
 )
 
 // Command is run once for each event.
-type Command func(*sechat.Event)
+type Command func(*sechat.Conn, *sechat.Event)
 
 // commands is used to maintain a list of commands.
 var commands []Command
@@ -16,8 +16,8 @@ func Register(cmd Command) {
 }
 
 // Execute runs the event through each of the commands.
-func Execute(event *sechat.Event) {
+func Execute(conn *sechat.Conn, event *sechat.Event) {
 	for _, cmd := range commands {
-		cmd(event)
+		cmd(conn, event)
 	}
 }
