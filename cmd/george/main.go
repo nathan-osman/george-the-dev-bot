@@ -42,7 +42,11 @@ func main() {
 		case <-ch:
 			return
 		case e := <-c.Events:
-			if e.IsMention() {
+			switch {
+			// If the user is invited, have him join the room
+			case e.EventType == sechat.EventInvitation:
+				c.Join(e.RoomID)
+			case e.IsMention():
 				registry.Execute(c, e)
 			}
 		}
