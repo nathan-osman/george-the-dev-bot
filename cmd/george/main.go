@@ -8,8 +8,10 @@ import (
 	"syscall"
 
 	"github.com/nathan-osman/george-the-dev-bot/registry"
-	_ "github.com/nathan-osman/george-the-dev-bot/time"
 	"github.com/nathan-osman/go-sechat"
+
+	_ "github.com/nathan-osman/george-the-dev-bot/net"
+	_ "github.com/nathan-osman/george-the-dev-bot/time"
 )
 
 func main() {
