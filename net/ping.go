@@ -23,7 +23,7 @@ func init() {
 			go func() {
 				cmd := exec.Command(
 					fmt.Sprintf("ping%s", m[1]),
-					"-c", "8",
+					"-c", "4",
 					"-i", "0.2",
 					"-w", "10",
 					m[2],
