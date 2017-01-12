@@ -26,6 +26,7 @@ func init() {
 				r, err := http.Get(url)
 				if err != nil || r.StatusCode >= 400 {
 					c.Reply(e, "unable to find manpage")
+					return
 				}
 				c.Reply(e, fmt.Sprintf(
 					"[manpage for %s](%s)",
