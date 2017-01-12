@@ -8,6 +8,7 @@ import (
 	"syscall"
 
 	"github.com/nathan-osman/george-the-dev-bot/registry"
+	"github.com/nathan-osman/george-the-dev-bot/server"
 	"github.com/nathan-osman/go-sechat"
 
 	_ "github.com/nathan-osman/george-the-dev-bot/net"
@@ -16,6 +17,7 @@ import (
 
 func main() {
 	var (
+		addr     = flag.String("addr", ":8000", "HTTP address")
 		email    = flag.String("email", os.Getenv("EMAIL"), "email address")
 		password = flag.String("password", os.Getenv("PASSWORD"), "login password")
 		room     = flag.Int("room", 1, "room to join")
@@ -24,6 +26,11 @@ func main() {
 	if *email == "" || *password == "" {
 		log.Fatal("email and password cannot be blank")
 	}
+	s, err := server.New(*addr)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer s.Close()
 	c, err := sechat.New(*email, *password, *room)
 	if err != nil {
 		log.Fatal(err)
