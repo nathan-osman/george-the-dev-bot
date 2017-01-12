@@ -21,7 +21,7 @@ func init() {
 				// Grab the subexpressions that matched
 				var (
 					item = m[1] + m[2] + m[3]
-					url  = "http://manpages.ubuntu.com/" + p
+					url  = "http://manpages.ubuntu.com/" + item
 				)
 				r, err := http.Get(url)
 				if err != nil || r.StatusCode >= 400 {
