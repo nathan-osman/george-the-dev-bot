@@ -18,11 +18,10 @@ var (
 func init() {
 	registry.Register(func(c *sechat.Conn, e *sechat.Event) {
 		if uptimeRegexp.MatchString(e.Content) {
-			c.Send(
-				e.RoomID,
+			c.Reply(
+				e,
 				fmt.Sprintf(
-					":%d started %s",
-					e.MessageID,
+					"started %s",
 					timeago.FromTime(startTime),
 				),
 			)

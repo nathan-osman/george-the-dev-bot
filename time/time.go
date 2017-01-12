@@ -16,11 +16,10 @@ var timeRegexp = regexp.MustCompile(
 func init() {
 	registry.Register(func(c *sechat.Conn, e *sechat.Event) {
 		if timeRegexp.MatchString(e.Content) {
-			c.Send(
-				e.RoomID,
+			c.Reply(
+				e,
 				fmt.Sprintf(
-					":%d the current time in UTC is %s",
-					e.MessageID,
+					"the current time in UTC is %s",
 					time.Now().UTC().Format("15:04:05"),
 				),
 			)
