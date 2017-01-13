@@ -11,7 +11,7 @@ import (
 
 // The regexp is very conservative to avoid inadvertently triggering pings
 var pingRegexp = regexp.MustCompile(
-	`(?i)\bping(6)?\s+([\w-]+\.[\w.-]+)`,
+	`(?i)\b(ping6?)\s+([\w-]+\.[\w.-]+)`,
 )
 
 func init() {
@@ -22,7 +22,7 @@ func init() {
 				c.Send(
 					e.RoomID,
 					util.Exec(
-						fmt.Sprintf("ping%s", m[1]),
+						m[1],
 						"-c", "4",
 						"-i", "0.2",
 						"-w", "10",
