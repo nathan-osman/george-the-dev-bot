@@ -1,7 +1,6 @@
 package net
 
 import (
-	"fmt"
 	"regexp"
 
 	"github.com/nathan-osman/george-the-dev-bot/registry"
