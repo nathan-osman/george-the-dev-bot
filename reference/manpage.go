@@ -19,11 +19,10 @@ func init() {
 		if m != nil {
 			go func() {
 				// Grab the subexpressions that matched
-				var (
-					item = m[1] + m[2] + m[3]
-					url  = "http://manpages.ubuntu.com/cgi-bin/search.py?titles=404&q=" + item
+				item := m[1] + m[2] + m[3]
+				r, err := http.Get(
+					"http://manpages.ubuntu.com/cgi-bin/search.py?titles=404&q=" + item,
 				)
-				r, err := http.Get(url)
 				if err != nil || r.StatusCode >= 400 {
 					c.Reply(e, fmt.Sprintf(
 						"unable to find manpage for %s.",

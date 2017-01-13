@@ -1,7 +1,6 @@
 package net
 
 import (
-	"fmt"
 	"regexp"
 
 	"github.com/nathan-osman/george-the-dev-bot/registry"
@@ -9,23 +8,23 @@ import (
 	"github.com/nathan-osman/go-sechat"
 )
 
-// The regexp is very conservative to avoid inadvertently triggering pings
-var pingRegexp = regexp.MustCompile(
-	`(?i)\bping(6)?\s+([\w-]+\.[\w.-]+)`,
+var digRegexp = regexp.MustCompile(
+	`(?i)\bdig\s+(?:(a|a{4}|mx)\s+)?([\w-]+\.[\w.-]+)`,
 )
 
 func init() {
 	registry.Register(func(c *sechat.Conn, e *sechat.Event) {
-		m := pingRegexp.FindStringSubmatch(e.TextContent)
+		m := digRegexp.FindStringSubmatch(e.TextContent)
 		if m != nil {
 			go func() {
+				if len(m[1]) == 0 {
+					m[1] = "a"
+				}
 				c.Send(
 					e.RoomID,
 					util.Exec(
-						fmt.Sprintf("ping%s", m[1]),
-						"-c", "4",
-						"-i", "0.2",
-						"-w", "10",
+						"dig",
+						m[1],
 						m[2],
 					),
 				)
