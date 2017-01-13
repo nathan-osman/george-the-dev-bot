@@ -15,7 +15,7 @@ var timeRegexp = regexp.MustCompile(
 
 func init() {
 	registry.Register(func(c *sechat.Conn, e *sechat.Event) {
-		if timeRegexp.MatchString(e.Content) {
+		if timeRegexp.MatchString(e.TextContent) {
 			c.Reply(
 				e,
 				fmt.Sprintf(

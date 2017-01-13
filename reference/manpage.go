@@ -15,7 +15,7 @@ var manpageRegexp = regexp.MustCompile(
 
 func init() {
 	registry.Register(func(c *sechat.Conn, e *sechat.Event) {
-		m := manpageRegexp.FindStringSubmatch(e.Content)
+		m := manpageRegexp.FindStringSubmatch(e.TextContent)
 		if m != nil {
 			go func() {
 				// Grab the subexpressions that matched
@@ -25,13 +25,16 @@ func init() {
 				)
 				r, err := http.Get(url)
 				if err != nil || r.StatusCode >= 400 {
-					c.Reply(e, "unable to find manpage")
+					c.Reply(e, fmt.Sprintf(
+						"unable to find manpage for %s.",
+						item,
+					))
 					return
 				}
 				c.Reply(e, fmt.Sprintf(
 					"[manpage for %s](%s)",
 					item,
-					url,
+					r.Request.URL.String(),
 				))
 			}()
 		}

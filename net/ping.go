@@ -18,7 +18,7 @@ var pingRegexp = regexp.MustCompile(
 
 func init() {
 	registry.Register(func(c *sechat.Conn, e *sechat.Event) {
-		m := pingRegexp.FindStringSubmatch(e.Content)
+		m := pingRegexp.FindStringSubmatch(e.TextContent)
 		if m != nil {
 			go func() {
 				cmd := exec.Command(

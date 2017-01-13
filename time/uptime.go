@@ -17,7 +17,7 @@ var (
 
 func init() {
 	registry.Register(func(c *sechat.Conn, e *sechat.Event) {
-		if uptimeRegexp.MatchString(e.Content) {
+		if uptimeRegexp.MatchString(e.TextContent) {
 			c.Reply(
 				e,
 				fmt.Sprintf(

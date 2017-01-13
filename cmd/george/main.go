@@ -54,7 +54,7 @@ func main() {
 			// If the user is invited, have him join the room
 			case e.EventType == sechat.EventInvitation:
 				c.Join(e.RoomID)
-			case e.IsMention():
+			case e.IsMention:
 				registry.Execute(c, e)
 			}
 		}
