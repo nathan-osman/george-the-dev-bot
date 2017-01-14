@@ -44,7 +44,7 @@ func init() {
 					return
 				}
 				w := wikipediaResult{}
-				if err := json.NewDecoder(r.Body).Decode(&r); err != nil ||
+				if err := json.NewDecoder(r.Body).Decode(&w); err != nil ||
 					len(w.Query.Search) == 0 || len(w.Query.Search[0].Title) == 0 {
 					c.Reply(e, "Hrm. Wikipedia is returning malformed JSON.")
 					return
