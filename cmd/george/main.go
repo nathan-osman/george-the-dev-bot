@@ -32,19 +32,14 @@ func main() {
 		log.Fatal(err)
 	}
 	defer s.Close()
+	log.Print("Connecting to chat...")
 	c, err := sechat.New(*email, *password, *room)
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Print("Connecting to chat...")
-	if err := c.Connect(); err != nil {
-		log.Fatal(err)
-	}
-	defer c.Close()
-	log.Print("Connected to chat")
 	defer log.Print("Shutting down...")
 	ch := make(chan os.Signal)
-	signal.Notify(ch, syscall.SIGINT)
+	signal.Notify(ch, syscall.SIGINT, syscall.SIGTERM)
 	for {
 		select {
 		case <-ch:
