@@ -4,9 +4,11 @@ MAINTAINER Nathan Osman <nathan@quickmediasolutions.com>
 RUN \
     apt-get update && \
     apt-get install -y \
+        apt-file \
         ca-certificates \
         dnsutils \
-        iputils-ping
+        iputils-ping && \
+    apt-file update
 
 # Add the binary to the container
 ADD dist/george /usr/local/bin/

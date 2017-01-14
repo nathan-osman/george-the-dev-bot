@@ -20,13 +20,13 @@ func init() {
 			go func() {
 				c.Send(
 					e.RoomID,
-					util.Exec(
+					util.Pre(util.Exec(
 						m[1],
 						"-c", "4",
 						"-i", "0.2",
 						"-w", "10",
 						m[2],
-					),
+					)),
 				)
 			}()
 		}

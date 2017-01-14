@@ -11,7 +11,7 @@ func Exec(name string, args ...string) string {
 	o, _ := c.CombinedOutput()
 	s := strings.TrimSpace(string(o))
 	if len(s) == 0 {
-		return Pre("<no output>")
+		return "<no output>"
 	}
-	return Pre(s)
+	return s
 }

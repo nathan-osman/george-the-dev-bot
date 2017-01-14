@@ -22,11 +22,11 @@ func init() {
 				}
 				c.Send(
 					e.RoomID,
-					util.Exec(
+					util.Pre(util.Exec(
 						"dig",
 						m[1],
 						m[2],
-					),
+					)),
 				)
 			}()
 		}
