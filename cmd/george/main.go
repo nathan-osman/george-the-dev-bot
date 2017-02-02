@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-	"log"
 	"os"
 	"os/signal"
 	"syscall"
@@ -10,12 +9,15 @@ import (
 	"github.com/nathan-osman/george-the-dev-bot/registry"
 	"github.com/nathan-osman/george-the-dev-bot/server"
 	"github.com/nathan-osman/go-sechat"
+	"github.com/sirupsen/logrus"
 
 	_ "github.com/nathan-osman/george-the-dev-bot/apt"
 	_ "github.com/nathan-osman/george-the-dev-bot/net"
 	_ "github.com/nathan-osman/george-the-dev-bot/reference"
 	_ "github.com/nathan-osman/george-the-dev-bot/time"
 )
+
+var log = logrus.New()
 
 func main() {
 	var (
@@ -33,12 +35,13 @@ func main() {
 		log.Fatal(err)
 	}
 	defer s.Close()
-	log.Print("Connecting to chat...")
+	log.Print("initializing chat connection")
 	c, err := sechat.New(*email, *password, *room)
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer log.Print("Shutting down...")
+	defer c.Close()
+	defer log.Print("closing chat connection")
 	ch := make(chan os.Signal)
 	signal.Notify(ch, syscall.SIGINT, syscall.SIGTERM)
 	for {
