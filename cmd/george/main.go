@@ -22,11 +22,15 @@ var log = logrus.New()
 func main() {
 	var (
 		addr     = flag.String("addr", ":8000", "HTTP address")
+		debug    = flag.Bool("debug", false, "enable debugging")
 		email    = flag.String("email", os.Getenv("EMAIL"), "email address")
 		password = flag.String("password", os.Getenv("PASSWORD"), "login password")
 		room     = flag.Int("room", 1, "room to join")
 	)
 	flag.Parse()
+	if *debug {
+		logrus.SetLevel(logrus.DebugLevel)
+	}
 	if *email == "" || *password == "" {
 		log.Fatal("email and password cannot be blank")
 	}
