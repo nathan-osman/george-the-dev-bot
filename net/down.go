@@ -14,7 +14,7 @@ var isDownRegexp = regexp.MustCompile(
 )
 
 func init() {
-	registry.Register(func(c *sechat.Conn, e *sechat.Event) {
+	registry.Register(func(c *sechat.Conn, e *sechat.Event) bool {
 		m := isDownRegexp.FindStringSubmatch(e.TextContent)
 		if m != nil {
 			go func() {
@@ -33,6 +33,8 @@ func init() {
 					m[1],
 				))
 			}()
+			return true
 		}
-	})
+		return false
+	}, registry.RegularCommand)
 }

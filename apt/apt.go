@@ -15,7 +15,7 @@ var aptRegexp = regexp.MustCompile(
 )
 
 func init() {
-	registry.Register(func(c *sechat.Conn, e *sechat.Event) {
+	registry.Register(func(c *sechat.Conn, e *sechat.Event) bool {
 		m := aptRegexp.FindStringSubmatch(e.TextContent)
 		if m != nil {
 			go func() {
@@ -29,7 +29,11 @@ func init() {
 					p = strings.Split(o, ":")
 				)
 				if len(l) > 1 {
-					c.Reply(e, fmt.Sprintf("%d packages provide this file", len(l)))
+					c.Reply(e, fmt.Sprintf(
+						"%d packages provide this file, one of which is %s",
+						len(l),
+						l[0],
+					))
 					return
 				}
 				if len(p) == 1 {
@@ -38,6 +42,8 @@ func init() {
 				}
 				c.Reply(e, fmt.Sprintf("the %s package provides %s", p[0], m[1]))
 			}()
+			return true
 		}
-	})
+		return false
+	}, registry.RegularCommand)
 }

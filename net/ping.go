@@ -14,7 +14,7 @@ var pingRegexp = regexp.MustCompile(
 )
 
 func init() {
-	registry.Register(func(c *sechat.Conn, e *sechat.Event) {
+	registry.Register(func(c *sechat.Conn, e *sechat.Event) bool {
 		m := pingRegexp.FindStringSubmatch(e.TextContent)
 		if m != nil {
 			go func() {
@@ -29,6 +29,8 @@ func init() {
 					)),
 				)
 			}()
+			return true
 		}
-	})
+		return false
+	}, registry.RegularCommand)
 }

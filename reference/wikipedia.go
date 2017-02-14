@@ -29,13 +29,13 @@ type wikipediaResult struct {
 }
 
 func init() {
-	registry.Register(func(c *sechat.Conn, e *sechat.Event) {
+	registry.Register(func(c *sechat.Conn, e *sechat.Event) bool {
 		m := wikipediaRegexp.FindStringSubmatch(e.TextContent)
 		if m != nil {
 			// Reward anyone who asks "what is love"
 			if strings.ToLower(m[1]) == "love" {
 				c.Reply(e, "Baby don't hurt me. Don't hurt me no more!")
-				return
+				return true
 			}
 			go func() {
 				r, err := http.Get(wikipediaQueryURL + url.QueryEscape(m[1]))
@@ -51,6 +51,8 @@ func init() {
 				}
 				c.Reply(e, wikipediaArticleURL+url.QueryEscape(w.Query.Search[0].Title))
 			}()
+			return true
 		}
-	})
+		return false
+	}, registry.ReferenceCommand)
 }

@@ -13,7 +13,7 @@ var manpageRegexp = regexp.MustCompile(
 )
 
 func init() {
-	registry.Register(func(c *sechat.Conn, e *sechat.Event) {
+	registry.Register(func(c *sechat.Conn, e *sechat.Event) bool {
 		m := manpageRegexp.FindStringSubmatch(e.TextContent)
 		if m != nil {
 			item := m[1] + m[2] + m[3]
@@ -22,6 +22,8 @@ func init() {
 				item,
 				"http://manpages.ubuntu.com/cgi-bin/search.py?titles=404&q="+item,
 			))
+			return true
 		}
-	})
+		return false
+	}, registry.RegularCommand)
 }

@@ -14,7 +14,7 @@ var timeRegexp = regexp.MustCompile(
 )
 
 func init() {
-	registry.Register(func(c *sechat.Conn, e *sechat.Event) {
+	registry.Register(func(c *sechat.Conn, e *sechat.Event) bool {
 		if timeRegexp.MatchString(e.TextContent) {
 			c.Reply(
 				e,
@@ -23,6 +23,8 @@ func init() {
 					time.Now().UTC().Format("15:04:05"),
 				),
 			)
+			return true
 		}
-	})
+		return false
+	}, registry.RegularCommand)
 }

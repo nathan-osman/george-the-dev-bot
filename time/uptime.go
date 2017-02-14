@@ -16,7 +16,7 @@ var (
 )
 
 func init() {
-	registry.Register(func(c *sechat.Conn, e *sechat.Event) {
+	registry.Register(func(c *sechat.Conn, e *sechat.Event) bool {
 		if uptimeRegexp.MatchString(e.TextContent) {
 			c.Reply(
 				e,
@@ -25,6 +25,8 @@ func init() {
 					timeago.FromTime(startTime),
 				),
 			)
+			return true
 		}
-	})
+		return false
+	}, registry.RegularCommand)
 }
