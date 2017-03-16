@@ -63,11 +63,6 @@ func main() {
 		if email == "" || password == "" {
 			log.Fatal("email and password cannot be blank")
 		}
-		srv, err := server.New(c.String("addr"))
-		if err != nil {
-			log.Fatal(err)
-		}
-		defer srv.Close()
 		log.Print("initializing chat connection")
 		conn, err := sechat.New(
 			c.String("email"),
@@ -79,6 +74,11 @@ func main() {
 		}
 		defer conn.Close()
 		defer log.Print("closing chat connection")
+		srv, err := server.New(conn, c.String("addr"))
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer srv.Close()
 		ch := make(chan os.Signal)
 		signal.Notify(ch, syscall.SIGINT, syscall.SIGTERM)
 		for {
