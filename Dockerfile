@@ -13,5 +13,8 @@ RUN \
 # Add the binary to the container
 ADD dist/george /usr/local/bin/
 
+# Expose the status port
+EXPOSE 8000
+
 # Specify the command for running the application
 CMD george
