@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"regexp"
+	"time"
 
 	"github.com/nathan-osman/george-the-dev-bot/registry"
 	"github.com/nathan-osman/go-sechat"
@@ -18,19 +19,26 @@ func init() {
 		m := isDownRegexp.FindStringSubmatch(e.TextContent)
 		if m != nil {
 			go func() {
-				r, err := http.Get(
+				var (
+					start  = time.Now()
+					client = &http.Client{
+						Timeout: 10 * time.Second,
+					}
+				)
+				r, err := client.Get(
 					fmt.Sprintf("http://%s", m[1]),
 				)
 				if err != nil || r.StatusCode >= 400 {
 					c.Reply(e, fmt.Sprintf(
-						"%s seems to be down",
+						"%s appears to be down",
 						m[1],
 					))
 					return
 				}
 				c.Reply(e, fmt.Sprintf(
-					"%s works for me",
+					"%s loaded in %dms",
 					m[1],
+					time.Now().Sub(start).Nanoseconds()/10^6,
 				))
 			}()
 			return true
