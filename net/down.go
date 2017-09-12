@@ -36,9 +36,9 @@ func init() {
 					return
 				}
 				c.Reply(e, fmt.Sprintf(
-					"%s loaded in %dms",
+					"%s loaded in %.1fms",
 					m[1],
-					time.Now().Sub(start).Nanoseconds()/10^6,
+					time.Now().Sub(start).Seconds()*1000,
 				))
 			}()
 			return true
